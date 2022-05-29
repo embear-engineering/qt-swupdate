@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MyFileDialog.qml</file>
+        <file>MyFileDialogDelegate.qml</file>
+        <file>MyFileDialogDelegateLabel.qml</file>
+        <file>MyFolderBreadcrumbBar.qml</file>
+    </qresource>
+</RCC>

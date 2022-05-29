@@ -1,0 +1,9 @@
+[Unit]
+Description=Qt Swupdate Client
+
+[Service]
+ExecStart=/usr/bin/qt-swupdate
+EnvironmentFile=/etc/environment
+
+[Install]
+WantedBy=multi-user.target

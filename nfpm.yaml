@@ -1,0 +1,86 @@
+# Name. (required)
+name: qt-swupdate
+
+# Architecture. (required)
+# This will expand any env var you set in the field, eg version: 
+# The architecture is specified using Go nomenclature (GOARCH) and translated
+# to the platform specific equivalent. In order to manually set the architecture
+# to a platform specific value, use deb_arch, rpm_arch and apk_arch.
+arch: arm64
+
+# Platform.
+# Defaults to `linux`.
+platform: linux
+
+# Version. (required)
+# This will expand any env var you set in the field, eg version: 
+version: 
+
+# Version Epoch.
+# Default is extracted from `version` if it is semver compatible.
+epoch: 2
+
+# Version Metadata (previously deb.metadata).
+# Default is extracted from `version` if it is semver compatible.
+# Setting metadata might interfere with version comparisons depending on the packager.
+version_metadata: git
+
+# Version Release.
+# This will expand any env var you set in the field, eg release: ${VERSION_RELEASE}
+release: 1
+
+# Section.
+section: default
+
+# Maintainer.
+# This will expand any env var you set in the field, eg maintainer: ${GIT_COMMITTER_NAME} <${GIT_COMMITTER_EMAIL}>
+# Defaults to empty on rpm and apk
+# Leaving the 'maintainer' field unset will not be allowed in a future version
+maintainer: Stefan Eichenberger <stefan@embear.ch>
+
+# Description.
+# Defaults to `no description given`.
+description: Qt Based Swupdate Client
+
+# Vendor.
+# This will expand any env var you set in the field, eg vendor: ${VENDOR}
+vendor: embear
+
+# Package's homepage.
+homepage: https://embear.ch
+
+# License.
+license: MIT
+
+# Disables globbing for files, config_files, etc.
+disable_globbing: false
+
+# Dependencies. (overridable)
+depends:
+  - qtdeclarative
+  - qtdeclarative-qmlplugins
+
+# Contents to add to the package
+# This can be binaries or any other files.
+contents:
+  # Basic file that applies to all packagers
+  - src: build/qt-swupdate
+    dst: /usr/bin/qt-swupdate
+    file_info:
+      mode: 755
+
+  # Simple config file
+  - src: qt-swupdate.service
+    dst: /usr/lib/systemd/system/qt-swupdate.service
+    type: config
+
+  # Simple config file
+  - src: qt-swupdate.conf
+    dst: /usr/share/qt-swupdate/qt-swupdate.conf
+    type: config
+
+
+# Scripts to run at specific stages. (overridable)
+scripts:
+  postinstall: ./scripts/postinstall.sh
+  preremove: ./scripts/preremove.sh
