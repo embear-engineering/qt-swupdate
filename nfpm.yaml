@@ -2,7 +2,7 @@
 name: qt-swupdate
 
 # Architecture. (required)
-# This will expand any env var you set in the field, eg version: 
+# This will expand any env var you set in the field, eg version: 1.0.0
 # The architecture is specified using Go nomenclature (GOARCH) and translated
 # to the platform specific equivalent. In order to manually set the architecture
 # to a platform specific value, use deb_arch, rpm_arch and apk_arch.
@@ -13,8 +13,8 @@ arch: arm64
 platform: linux
 
 # Version. (required)
-# This will expand any env var you set in the field, eg version: 
-version: 
+# This will expand any env var you set in the field, eg version: 1.0.0
+version: 1.0.0
 
 # Version Epoch.
 # Default is extracted from `version` if it is semver compatible.
@@ -69,7 +69,7 @@ contents:
     file_info:
       mode: 755
 
-  # Simple config file
+  # Systemd Service
   - src: qt-swupdate.service
     dst: /usr/lib/systemd/system/qt-swupdate.service
     type: config
