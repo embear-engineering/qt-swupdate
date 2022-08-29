@@ -12,9 +12,9 @@
 
 static pid_t progressPid = -1;
 
-char buf[4096];
+static char buf[4096];
 static int fd;
-bool end_status;
+static bool end_status;
 static SwUpdate *wrapper;
 
 static int readimage(char **p, int *size) {
@@ -97,6 +97,7 @@ SwUpdate::SwUpdate() : stop(false)
 
 SwUpdate::~SwUpdate()
 {
+    // let checkProgress read return
     if (progressPid > 1)
         kill(progressPid, SIGUSR1);
 
@@ -114,7 +115,8 @@ void SwUpdate::checkProgress()
 
         progressPid = gettid();
         signal(SIGUSR1, [](int /*sig*/) {
-            close(progressFd); /* Closing the filehandler will make read return */
+            // Closing the filehandler will make read return
+            close(progressFd);
         });
         while (progressFd <= 0 && !this->stop) {
             progressFd = progress_ipc_connect(false);
@@ -124,9 +126,11 @@ void SwUpdate::checkProgress()
         if (progressFd <= 0)
             return QString();
 
-        if (progress_ipc_receive(&progressFd, &msg) <= 0) // This is blocking, use signals to interrupt
+        // This is blocking, use Posix signals to interrupt
+        if (progress_ipc_receive(&progressFd, &msg) <= 0)
             return QString();
 
+        // Convert status to JSON message for QML (could also be done by using Qt JSON)
         switch (msg.status) {
         case IDLE:
             return QString("{\"status\": \"idle\"}");

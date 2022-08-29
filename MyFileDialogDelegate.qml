@@ -3,7 +3,7 @@
 ** Copyright (C) 2021 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the Qt Quick Dialogs module of the Qt Toolkit.
+** This file was copied from the Qt Quick Dialogs module of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
@@ -78,7 +78,6 @@ DialogsQuickImpl.FileDialogDelegate {
 
     contentItem: MyFileDialogDelegateLabel {
         delegate: control
-//        fileDetailRowTextColor: control.icon.color
         fileDetailRowWidth: control.fileDetailRowWidth
     }
 
